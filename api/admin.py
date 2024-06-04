@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PageInfo, Technology, Social, KnowTechs
+from .models import PageInfo, Technology, Social, KnowTechs, Project, Section
 
 
 
@@ -7,12 +7,10 @@ from .models import PageInfo, Technology, Social, KnowTechs
 @admin.register(PageInfo)
 class PageInfoAdmin(admin.ModelAdmin):
 
-    list_display = ('name',)
-
     filter_horizontal = ('technologies', 'socials')
     fieldsets = (
         (None, {
-            'fields': ('name', 'introduction', 'profilePicture')
+            'fields': ('name', 'introduction', 'profilePicture', 'cv',)
         }),
         ('Associations', {
             'fields': ('technologies', 'socials')
@@ -65,4 +63,14 @@ class KnowTechsAdmin(admin.ModelAdmin):
         
         return False
     
-    
+
+class SectionInline(admin.TabularInline):
+    model = Section
+    extra = 1    
+
+@admin.register(Project)
+class ProjectAdmin(admin.ModelAdmin):
+    filter_horizontal = ('technologies',)
+    inlines = [SectionInline]
+
+    list_display = ('title', 'githubUrl', 'liveProjectUrl',)
