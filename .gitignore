@@ -51,4 +51,3 @@ local_settings.py
 venv/
 .venv
 .env
-*.sqlite3
