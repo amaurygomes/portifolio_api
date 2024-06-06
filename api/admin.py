@@ -2,8 +2,6 @@ from django.contrib import admin
 from .models import PageInfo, Technology, Social, KnowTechs, Project, Section
 
 
-
-
 @admin.register(PageInfo)
 class PageInfoAdmin(admin.ModelAdmin):
 

@@ -17,8 +17,8 @@ class Technology(models.Model):
         return self.name
     
     class Meta:
-        verbose_name = "Tecnologia"
-        verbose_name_plural = "Tecnologias"
+        verbose_name = "Tech"
+        verbose_name_plural = "Techs"
     
 
 class Social(models.Model):
