@@ -36,6 +36,7 @@ class Social(models.Model):
 class KnowTechs(models.Model):
     id = models.AutoField(primary_key=True)
     techs = models.ManyToManyField(Technology)
+
     
 
     def save(self, *args, **kwargs):
@@ -85,6 +86,7 @@ class PageInfo(models.Model):
 
 class Project(models.Model):
     id = models.AutoField(primary_key=True)
+    slug = models.SlugField()
     title = models.CharField(max_length=200)
     shortDescription = models.TextField()
     description = CKEditor5Field()
@@ -93,10 +95,6 @@ class Project(models.Model):
     technologies = models.ManyToManyField(Technology)
     thumbnail = models.ImageField(upload_to='projectImages/')
     pagethumbnail = models.ImageField(upload_to='projectImages/')
-
-    def __str__(self):
-        return self.title
-
 
     def __str__(self):
         return self.title
@@ -112,3 +110,43 @@ class Section(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class HighlightProjects(models.Model):
+    id = models.AutoField(primary_key=True)
+    project = models.ManyToManyField(Project)
+
+
+    def save(self, *args, **kwargs):
+        if not self.pk and HighlightProjects.objects.exists():
+            raise ValueError('Já existe uma instancia de HighLight.')
+        return super(HighlightProjects, self).save(*args, **kwargs)
+    
+    def delete(self, *args, **kwargs):
+        raise ValueError('Estes dados não podem ser deletados.')
+
+
+    class Meta:
+        verbose_name = "Destaque"
+        verbose_name_plural = "Destaques"
+
+class WorkExperience(models.Model):
+    companyName = models.CharField(max_length=250)
+    companyUrl = models.URLField()
+    companylogo = models.ImageField(upload_to='companyLogo/')
+    role = models.CharField(max_length=250)
+    description = CKEditor5Field()
+    technologies = models.ManyToManyField(Technology)
+    startDate = models.DateField()
+    endDate = models.DateField()
+    
+
+
+
+
+    def __str__(self):
+        return self.companyName
+    
+    class Meta:
+        verbose_name = "Experiência"
+        verbose_name_plural = "Experiências"

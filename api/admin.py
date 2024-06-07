@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PageInfo, Technology, Social, KnowTechs, Project, Section
+from .models import PageInfo, Technology, Social, KnowTechs, Project, Section, HighlightProjects, WorkExperience
 
 
 @admin.register(PageInfo)
@@ -62,6 +62,28 @@ class KnowTechsAdmin(admin.ModelAdmin):
         return False
     
 
+@admin.register(HighlightProjects)
+class HighlightAdmin(admin.ModelAdmin):
+    filter_horizontal = ('project',)
+
+    def has_add_permission(self, request):
+        
+        if HighlightProjects.objects.exists():
+            return False
+        return True
+
+    def changelist_view(self, request, extra_context=None):
+        
+        if HighlightProjects.objects.exists():
+            instance = HighlightProjects.objects.first()
+            return self.change_view(request, object_id=str(instance.id))
+        return super(HighlightAdmin, self).changelist_view(request, extra_context)
+
+    def has_delete_permission(self, request, obj=None):
+        
+        return False
+
+
 class SectionInline(admin.TabularInline):
     model = Section
     extra = 1    
@@ -72,3 +94,8 @@ class ProjectAdmin(admin.ModelAdmin):
     inlines = [SectionInline]
 
     list_display = ('title', 'githubUrl', 'liveProjectUrl',)
+
+
+@admin.register(WorkExperience)
+class WorkExperienceAdmin(admin.ModelAdmin):
+    filter_horizontal = ('technologies',)
