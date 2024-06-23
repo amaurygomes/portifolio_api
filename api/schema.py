@@ -1,6 +1,6 @@
 import graphene
 from graphene_django import DjangoObjectType
-from .models import PageInfo, Social, KnowTechs, Technology, HighlightProjects, Project, WorkExperience
+from .models import PageInfo, Social, KnowTechs, Technology, HighlightProjects, Project, WorkExperience, Section
 from .converters import *
 
 
@@ -32,6 +32,10 @@ class PageInfoType(DjangoObjectType):
 class WorkExperienceType(DjangoObjectType):
     class Meta:
         model = WorkExperience
+
+class SectionType(DjangoObjectType):
+    class Meta:
+        model = Section
         
 
 class Query(graphene.ObjectType):
@@ -40,6 +44,9 @@ class Query(graphene.ObjectType):
     highlight_projects = graphene.Field(HighlightsType, id=graphene.Int())
     all_work_experience = graphene.List(WorkExperienceType)
     all_projects = graphene.List(ProjectType)
+    project_by_slug = graphene.Field(ProjectType, slug=graphene.String())
+
+
 
     def resolve_page_info(self, info, id):
         try:
@@ -57,6 +64,12 @@ class Query(graphene.ObjectType):
         try:
             return HighlightProjects.objects.get(id=id)
         except HighlightProjects.DoesNotExist:
+            return None
+        
+    def resolve_project_by_slug(self, info, slug):
+        try:
+            return Project.objects.get(slug=slug)
+        except Project.DoesNotExist:
             return None
     
     def resolve_all_work_experience(self, info):
