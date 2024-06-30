@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'graphene_django',
     'api',
     "django_ckeditor_5",
-    'storages',
+    
 ]
 
 MIDDLEWARE = [
@@ -114,12 +114,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-B2_APP_KEY_ID = 'a8bf547d4b3c'
-B2_APP_KEY = '003cc12e2a6c123a53286d0896ee537d95d070b0b6'
-B2_BUCKET_NAME = 'amaurygomes'
-
-DEFAULT_FILE_STORAGE = 'storages.backends.b2.B2Storage'
-MEDIA_URL = f'https://f002.backblazeb2.com/file/{B2_BUCKET_NAME}/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 GRAPHENE = {
