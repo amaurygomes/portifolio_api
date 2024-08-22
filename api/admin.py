@@ -20,6 +20,7 @@ class GroupAdmin(BaseGroupAdmin, ModelAdmin):
     pass
 
 
+
 @admin.register(PageInfo)
 class PageInfoAdmin(ModelAdmin):
 

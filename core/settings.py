@@ -137,7 +137,7 @@ INSTALLED_APPS = [
     'graphene_django',
     'api',
     "django_ckeditor_5",
-    'app',
+    
     
 ]
 
