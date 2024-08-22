@@ -1,9 +1,27 @@
 from django.contrib import admin
 from .models import PageInfo, Technology, Social, KnowTechs, Project, Section, HighlightProjects, WorkExperience
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
+from django.contrib.auth.models import User, Group
+
+from unfold.admin import ModelAdmin
+
+admin.site.unregister(User)
+admin.site.unregister(Group)
+
+
+@admin.register(User)
+class UserAdmin(BaseUserAdmin, ModelAdmin):
+    pass
+
+
+@admin.register(Group)
+class GroupAdmin(BaseGroupAdmin, ModelAdmin):
+    pass
 
 
 @admin.register(PageInfo)
-class PageInfoAdmin(admin.ModelAdmin):
+class PageInfoAdmin(ModelAdmin):
 
     filter_horizontal = ('technologies', 'socials')
     fieldsets = (
@@ -33,15 +51,15 @@ class PageInfoAdmin(admin.ModelAdmin):
         return False
 
 @admin.register(Technology)
-class TechnologyAdmin(admin.ModelAdmin):
+class TechnologyAdmin(ModelAdmin):
     list_display = ('name', 'startDate')
 
 @admin.register(Social)
-class SocialAdmin(admin.ModelAdmin):
+class SocialAdmin(ModelAdmin):
     list_display = ('name', 'url')
 
 @admin.register(KnowTechs)
-class KnowTechsAdmin(admin.ModelAdmin):
+class KnowTechsAdmin(ModelAdmin):
     filter_horizontal = ('techs',)
 
     def has_add_permission(self, request):
@@ -63,7 +81,7 @@ class KnowTechsAdmin(admin.ModelAdmin):
     
 
 @admin.register(HighlightProjects)
-class HighlightAdmin(admin.ModelAdmin):
+class HighlightAdmin(ModelAdmin):
     filter_horizontal = ('project',)
 
     def has_add_permission(self, request):
@@ -89,7 +107,7 @@ class SectionInline(admin.TabularInline):
     extra = 1    
 
 @admin.register(Project)
-class ProjectAdmin(admin.ModelAdmin):
+class ProjectAdmin(ModelAdmin):
     filter_horizontal = ('technologies',)
     inlines = [SectionInline]
 
@@ -97,5 +115,5 @@ class ProjectAdmin(admin.ModelAdmin):
 
 
 @admin.register(WorkExperience)
-class WorkExperienceAdmin(admin.ModelAdmin):
+class WorkExperienceAdmin(ModelAdmin):
     filter_horizontal = ('technologies',)

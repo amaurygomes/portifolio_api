@@ -1,4 +1,7 @@
 from pathlib import Path
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
+from django.templatetags.static import static
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -13,14 +16,118 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4r7lr+_@g0q-@u58-0&bf4i6foga@8jx4!h4kdzyhkvk7n8qd1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
+
+UNFOLD = {
+    "SITE_TITLE": "Portifolio ibanez.dev.br",
+    "SITE_HEADER": "Ibanez.",
+    "SITE_URL": "/",
+    "SITE_SYMBOL": "widgets",
+    "THEME": "dark",
+
+    "COLORS": {
+    "primary": {
+    "50": "236 253 245",   # Esmeralda muito claro
+    "100": "209 250 229",  # Esmeralda claro
+    "200": "167 243 208",  # Esmeralda claro médio
+    "300": "110 231 183",  # Esmeralda médio
+    "400": "52 211 153",   # Esmeralda intenso
+    "500": "16 185 129",   # Esmeralda padrão
+    "600": "5 150 105",    # Esmeralda escuro
+    "700": "4 120 87",     # Esmeralda profundo
+    "800": "6 95 70",      # Esmeralda muito escuro
+    "900": "6 78 59",      # Esmeralda quase preto
+    "950": "2 44 34"       # Esmeralda mais escuro
+}
+
+    },
+
+     "SIDEBAR": {
+        "show_all_applications": True,
+        "navigation": [
+            {
+                
+                "items": [{
+                    "title": _("Administradores"),
+                    "icon": "admin_panel_settings",
+                    "link": reverse_lazy("admin:auth_user_changelist"),
+                    "permission": lambda request: request.user.is_superuser,
+                    
+                },
+
+
+                {
+                    "title": _("Hero Section"),
+                    "icon": "home",
+                    "link": reverse_lazy("admin:api_pageinfo_changelist"),
+                    "permission": lambda request: request.user.is_superuser,
+                    
+                },
+
+                {
+                    "title": _("Projetos"),
+                    "icon": "code",
+                    "link": reverse_lazy("admin:api_project_changelist"),
+                    "permission": lambda request: request.user.is_superuser,
+                    
+                },
+
+                {
+                    "title": _("Tecnologias"),
+                    "icon": "editor_choice",
+                    "link": reverse_lazy("admin:api_technology_changelist"),
+                    "permission": lambda request: request.user.is_superuser,
+                    
+                },
+
+                {
+                    "title": _("Destaques"),
+                    "icon": "trending_up",
+                    "link": reverse_lazy("admin:api_highlightprojects_changelist"),
+                    "permission": lambda request: request.user.is_superuser,
+                    
+                },
+
+                {
+                    "title": _("Conhecimentos"),
+                    "icon": "school",
+                    "link": reverse_lazy("admin:api_knowtechs_changelist"),
+                    "permission": lambda request: request.user.is_superuser,
+                    
+                },
+
+                {
+                    "title": _("Experiência Profissional"),
+                    "icon": "work_history",
+                    "link": reverse_lazy("admin:api_workexperience_changelist"),
+                    "permission": lambda request: request.user.is_superuser,
+                    
+                },
+
+                {
+                    "title": _("Contato"),
+                    "icon": "support_agent",
+                    "link": reverse_lazy("admin:api_social_changelist"),
+                    "permission": lambda request: request.user.is_superuser,
+                    
+                },
+
+                
+                ]
+            }
+        ]
+    },
+
+}
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    "unfold",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -30,6 +137,7 @@ INSTALLED_APPS = [
     'graphene_django',
     'api',
     "django_ckeditor_5",
+    'app',
     
 ]
 
@@ -48,7 +156,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -108,11 +216,13 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -171,9 +281,12 @@ customColorPalette = [
     ]
 
 
+
+
 CKEDITOR_5_CONFIGS = {
     'default': {
         'toolbar': ['heading', '|', 'bold', 'italic', 'link', 'fontColor', 'FontBackgroundColor',],
+        
         
 
     },
@@ -234,3 +347,9 @@ CKEDITOR_5_CONFIGS = {
 
 
 
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
+LOGOUT_REDIRECT_URL = '/admin/'

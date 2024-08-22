@@ -8,8 +8,9 @@ from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
     path("ckeditor5/", include('django_ckeditor_5.urls')),
+    
     
 ]
 

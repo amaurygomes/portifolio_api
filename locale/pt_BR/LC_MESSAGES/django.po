@@ -1,0 +1,29 @@
+msgid "Welcome back to"
+msgstr "Bem vindo de volta para"
+
+msgid "Return to site"
+msgstr "Ir ao Site"
+
+msgid "True"
+msgstr "Ativo"
+
+msgid "False"
+msgstr "Inativo"
+
+msgid "Rerun to site"
+msgstr "Acssar Site"
+
+msgid "All applications"
+msgstr "Todas as aplicacoes"
+
+msgid "Type to search"
+msgstr "Digite para pesquisar"
+
+msgid "Select action"
+msgstr "Selecione uma acao"
+
+msgid "Filters"
+msgstr "Filtros"
+
+msgid "Filter results"
+msgstr "Filtrar resultados"
